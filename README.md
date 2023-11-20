@@ -27,7 +27,7 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 | ---------------------- | ----------------------- |
 | [Portable ZIP][latest] | [DMG Installer][latest] |
 
-[latest]: https://github.com/SMH642800/capture_screen_project/releases/latest
+[latest]: https://github.com/SMH642800/BabelTower/releases/latest
 
 ---
 
@@ -77,18 +77,20 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 - 文字
 
   ![設定-文字](img/github/settings-text.png)
+
   - 可調整主介面上的辨識和翻譯結果的【文字大小】及【文字顏色】
 
 - 擷取
 
   ![設定-擷取](img/github/settings-capture.png)
+
   - 可調整擷取畫面的頻率（即辨識的頻率），預設為【標準 (2 秒)】
   - 擷取頻率建議值：
     - 若字幕以一個一個字顯示，而非一次完整顯示整句，建議將頻率調整成【3 秒】或以上
     - 若為一次顯示完整的句子，則根據字幕顯示的速度自行調整為適當的頻率秒數
   - 【截圖後自動繼續擷取】功能：開啟後，當你在擷取畫面模式時使用截圖功能辨識畫面中某個區塊後，系統會自動倒數5秒，倒數結束之後自動恢復先前的擷取模式。如果關閉此功能，在截圖後，你就必須手動恢復先前的擷取畫面模式。預設為【關閉】。
 
-      ![截圖後自動繼續擷取](img/github/auto-recapture.png)
+    ![截圖後自動繼續擷取](img/github/auto-recapture.png)
 
 - 系統  
   ![設定-系統](img/github/settings-system.png)
