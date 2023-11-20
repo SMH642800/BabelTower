@@ -254,4 +254,4 @@ If you want to change the translated target language to the one you prefer, go t
 target_language = "zh-TW"  # Replace this with your target language code (e.g., English -> en, Japanese -> ja).
 ```
 
-You can go to [here](https://cloud.google.com/translate/docs/languages) to check supported languages.
+You can go [here](https://cloud.google.com/translate/docs/languages) to check out supported languages.
