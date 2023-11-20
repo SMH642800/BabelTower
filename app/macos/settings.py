@@ -492,9 +492,8 @@ class SettingsWindow(QDialog):
 
         # 創建使用說明連結、Github連結
         manual_file_path = os.path.join(self.app_dir_path, "html/manual.html")
-        github_file_path = os.path.join(self.app_dir_path, "html/githublink.html")
         self.manual_link = QLabel(f'<a href="file://{manual_file_path}"><span> &lt; </span>使用說明<span> &gt; </span></a>')
-        self.github_link = QLabel(f'<a href="file://{github_file_path}"><span> &lt; </span>GitHub<span> &gt; </span></a>')
+        self.github_link = QLabel(f'<a href="https://github.com/SMH642800/BabelTower"><span> &lt; </span>GitHub<span> &gt; </span></a>')
         self.manual_link.setFont(label_font)
         self.github_link.setFont(label_font)
         self.manual_link.setOpenExternalLinks(True)  # 允許外部連結
