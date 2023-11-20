@@ -5,7 +5,7 @@ a = Analysis(
     ['app/macos/main.py'],
     pathex=[],
     binaries=[],
-    datas=[('html', 'html'), ('html/css', 'html/css'), ('img', 'img')],
+    datas=[('html', 'html'), ('img', 'img')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
