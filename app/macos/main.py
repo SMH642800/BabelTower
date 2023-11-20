@@ -1179,15 +1179,6 @@ class ScreenCaptureWindow(QMainWindow):
     closed = Signal()
   
     def __init__(self, main_window_screen):
-
-        if getattr(sys, 'frozen', False):
-            # 应用程序被打包
-            app_dir = sys._MEIPASS
-        else:
-            app_dir = os.path.dirname(os.path.abspath(__file__))
-
-        self.app_dir = app_dir
-
         super().__init__()
 
         # 定義一個變數用來比較前一張已辨識的圖片
