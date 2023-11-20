@@ -602,8 +602,6 @@ class SettingsWindow(QDialog):
 
                 # 获取当前脚本所在的目录
                 new_file_path = os.path.join(self.app_dir_path, os.path.basename(credentials_file))
-                print(new_file_path)
-                
                 previous_file_path = self.config_handler.get_google_credential_path()
                 if os.path.exists(previous_file_path):
                     os.remove(previous_file_path)  # 如果文件已存在，先删除它
