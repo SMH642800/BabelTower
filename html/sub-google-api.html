@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Google憑證取得步驟</title>
+
+        <!-- style -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+
+    <body>
+        <div class="div-return">
+            <a href="./index.html">回首頁</a>
+        </div>
+
+        <p>註1：Google Vision需綁定信用卡，沒信用卡或不想綁定者請無視本功能</p>
+        <p>
+            註2：Google Vision每個月有1000次的免費使用次數，超過後每1000次收費1次(
+            <a href="https://cloud.google.com/vision/pricing?hl=zh-tw" target="_blank">查看定價</a>
+            )
+        </p>
+        <ol>
+            <li>
+                <span>
+                    前往
+                    <a href="https://cloud.google.com/" target="_blank">Google Cloud Platform官網</a>
+                    ，點選【免費開始使用】啟用Google Cloud Platform服務，公司資訊隨便填就好不用照實填寫，本功能需使用Google帳號，若沒有Google帳號請建立一個
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    前往
+                    <a href="https://cloud.google.com/vision/docs/ocr" target="_blank">Cloud Vision API說明文件</a>
+                    ，點選右上角的【Language】將網頁切換成中文，然後點選【登入】登入您的Google帳號，已登入者請看下一步
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    登入後再次前往
+                    <a href="https://cloud.google.com/vision/docs/ocr" target="_blank">Cloud Vision API說明文件</a>
+                    ，展開【设置您的 Google Cloud 项目和身份验证】下方的+號
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    點選【转到“项目选择器”】按鈕，建立一個新專案
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    建立專案後點選【启用 API】按鈕，選擇剛剛的項目按下一步啟用
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    前往
+                    <a href="https://console.cloud.google.com/apis/api/vision.googleapis.com/credentials" target="_blank">
+                        這裡
+                    </a>
+                    ，點選「建立憑證」建立一個服務帳號(名字隨意取)，建立後進入該服務帳號選擇「密鑰」，選擇「添加密鑰」>「JSON」，然後按下創建即可
+                </span>
+            </li>
+
+            <li>
+                <span>
+                    開啟Tataru Helper Node設定，點選【系統】>【設定Google憑證】，開啟上一步驟下載的JSON檔案即可使用Google Vision擷取螢幕文字，儲存的憑證會永久保存，不必再重新設定
+                </span>
+                <br />
+            </li>
+
+            <li>
+                <span id="span-warning">
+                    憑證檔案請妥善保管，除非你想和他人共用您的信用卡額度否則千萬不要和他人分享您的憑證檔案，若想移除憑證請至
+                    <a href="https://console.cloud.google.com/iam-admin/serviceaccounts" target="_blank">這裡</a>
+                    移除服務帳號即可，移除後需重新建立一個服務帳號才能使用Google Vision服務
+                </span>
+            </li>
+        </ol>
+    </body>
+</html>

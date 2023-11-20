@@ -1,0 +1,16 @@
+# MACOS
+__MACOSX
+.DS_Store
+
+# pyinstaller package
+dist/*
+build/*
+
+# create-dmg setup config
+builddmg.sh
+
+# configuration
+config.toml
+
+# .json file
+*.json

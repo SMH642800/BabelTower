@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "test1"
+version = "0.1.0"
+description = ""
+authors = ["SMH642800 <SMH642800@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.11"
+pyside6 = "^6.5.3"
+pillow = "^10.0.1"
+toml = "^0.10.2"
+opencv-python = "^4.8.1.78"
+google-cloud-translate = "^3.12.0"
+google-cloud-vision = "^3.4.4"
+pyinstaller = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
