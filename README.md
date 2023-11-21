@@ -191,24 +191,24 @@ To compile BabelTower from source code, follow these steps:
 1. Install `Python`, the following Python packages are required:
    ```bash
    # on macOS platform
-      pyside6
-      pillow
-      opencv-python
-      toml
-      google-cloud-vision
-      google-cloud-translate
+   pyside6
+   pillow
+   opencv-python
+   toml
+   google-cloud-vision
+   google-cloud-translate
    ```
 
    ```bash
    # on Windows platform
-      pyside6
-      pillow
-      opencv-python
-      pygetwindow
-      mss
-      toml
-      google-cloud-vision
-      google-cloud-translate
+   pyside6
+   pillow
+   opencv-python
+   pygetwindow
+   mss
+   toml
+   google-cloud-vision
+   google-cloud-translate
    ```
 
 2. Clone the BabelTower repository
@@ -216,6 +216,7 @@ To compile BabelTower from source code, follow these steps:
 4. Run `python main.py` or `python3 main.py` to start the App:
    ```bash
    # on macOS platform
+   # cd into macos folder at first
    cd app/macos
 
    # execute python file
@@ -224,6 +225,7 @@ To compile BabelTower from source code, follow these steps:
 
    ```bash
    # on Windows platform
+   # cd into windows folder at first
    cd app/windows
 
    # execute python file
