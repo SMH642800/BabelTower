@@ -27,6 +27,8 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 | ---------------------- | ----------------------- |
 | [Portable ZIP][latest] | [DMG Installer][latest] |
 
+**※ 若下載後，要使用時被防毒軟體擋下來的話，記得要將 Babel Tower 加入防毒軟體的白名單**
+
 [latest]: https://github.com/SMH642800/BabelTower/releases/latest
 
 ---
@@ -179,7 +181,7 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 ::: warning
 
 - 請注意，由於 cloud vision 和 cloud translation API 每個月皆有一定次數的免費額度限制，超過免費額度上限之後必須支付使用 API 的費用。
-- cloud vision 免費額度 ： 每個月前 1000 次請求免費，之後==每 1000 次請求需支付 1.5 美元==（實際收費方案請自行查閱 GCP (Google Cloud Platform) 頁面，此文章為 2023 年時撰寫的）
+- cloud vision 免費額度 ： 每個月前 1000 次請求免費，之後==每 1000 次請求需支付 1.5 美元==（實際收費方案請自行查閱 GCP (Google Cloud Platform) 頁面，這裡的收費資料為 2023 年查詢）
   :::
 
 ---
