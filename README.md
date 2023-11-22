@@ -191,6 +191,7 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 To compile BabelTower from source code, follow these steps:
 
 1. Install `Python`, the following Python packages are required:
+
    ```bash
    # on macOS platform
    pyside6
@@ -216,6 +217,7 @@ To compile BabelTower from source code, follow these steps:
 2. Clone the BabelTower repository
 3. Run `cd BabelTower` to enter the project folder
 4. Run `python main.py` or `python3 main.py` to start the App:
+
    ```bash
    # on macOS platform
    # cd into macos folder at first
