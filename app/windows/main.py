@@ -1329,9 +1329,8 @@ class ScreenCaptureWindow(QMainWindow):
         self.monitor_modify_x = 0.0
         self.monitor_modify_y = 0.0
 
-        # 定義變數用來儲存當前視窗所在的 monitor 和 mss's sct
+        # 定義變數用來儲存當前視窗所在的 monitor info
         self.monitor = None
-        self.sct = None
 
         # 定義 boolen value record window is out of border or not
         self.is_found_monitor = False
@@ -1401,7 +1400,7 @@ class ScreenCaptureWindow(QMainWindow):
         # 调整边界线条的位置
         self.border_frame.setGeometry(0, 0, new_width, new_height)
 
-    def moveEvent(self, event):
+    def get_monitor_info(self):
         # Get the screen where the screenshot window is displayed
         screen = self.screen()
         # get the ration of screen settings in windows system
@@ -1455,11 +1454,13 @@ class ScreenCaptureWindow(QMainWindow):
                     # modify the correct cropped coordinate
                     self.monitor_modify_x = (0.0 - closest_monitor['left'])
                     self.monitor_modify_y = (0.0 - closest_monitor['top'])
-            
-                self.sct = sct
     
     def start_capture(self):
         self.previous_image = None  # clear the previous_image content before start capture
+
+        # 取得目前視窗所在螢幕資訊
+        self.get_monitor_info()
+
         match main_capturing_window.get_frequncy():
             case "高 (1 秒)":
                 self.timer.start(1000)  # Capture every 1000 milliseconds (1 second)
@@ -1503,12 +1504,13 @@ class ScreenCaptureWindow(QMainWindow):
             x2 = (self.geometry().x() + self.geometry().width() + self.monitor_modify_x) * self.scale_factor
             y2 = (self.geometry().y() + self.geometry().height()+ self.monitor_modify_y) * self.scale_factor
             
-            # use mss module to grab whole region of monitor first
-            sct_img = self.sct.grab(self.monitor)
-            # Create the PIL Image
-            pil_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
-            # crop the region
-            screenshot = pil_img.crop((x1, y1, x2, y2))
+            with mss.mss() as sct:
+                # use mss module to grab whole region of monitor first
+                sct_img = sct.grab(self.monitor)
+                # Create the PIL Image
+                pil_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
+                # crop the region
+                screenshot = pil_img.crop((x1, y1, x2, y2))
     
             # 在每次执行 OCR 之前比较图像相似度
             if self.is_similar_to_previous(screenshot):
