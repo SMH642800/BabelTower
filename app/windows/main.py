@@ -1323,6 +1323,18 @@ class ScreenCaptureWindow(QMainWindow):
 
         # 定義一個變數用來比較前一張已辨識的圖片
         self.previous_image = None
+
+        # 定義變數用來儲存當前視窗所在的螢幕縮放比例, 修正xy座標位移量
+        self.scale_factor = 1.0
+        self.monitor_modify_x = 0.0
+        self.monitor_modify_y = 0.0
+
+        # 定義變數用來儲存當前視窗所在的 monitor 和 mss's sct
+        self.monitor = None
+        self.sct = None
+
+        # 定義 boolen value record window is out of border or not
+        self.is_found_monitor = False
   
         # set the title
         self.setWindowTitle("擷取視窗")
@@ -1388,7 +1400,64 @@ class ScreenCaptureWindow(QMainWindow):
 
         # 调整边界线条的位置
         self.border_frame.setGeometry(0, 0, new_width, new_height)
-       
+
+    def moveEvent(self, event):
+        # Get the screen where the screenshot window is displayed
+        screen = self.screen()
+        # get the ration of screen settings in windows system
+        self.scale_factor = screen.devicePixelRatio()
+        
+        # use mss module to get the display of screen_capture_window which stayed on
+        app_window = gw.getWindowsWithTitle("擷取視窗")
+        if app_window:
+            app_window = app_window[0]
+
+            # 取得視窗的位置和大小
+            left, top = app_window.left, app_window.top
+
+            # 创建标志变量
+            self.is_found_monitor = False
+
+            # 使用 mss 擷取整個螢幕
+            with mss.mss() as sct:
+                # create a dictionary to save the distance with "left - monitor['left']" for every monitor
+                over_border_distance_list = {}
+
+                for monitor in sct.monitors[1:]:
+                    # save the distance in dictionary with [distance] = monitor
+                    distance = abs(left - monitor['left'])
+                    over_border_distance_list[distance] = monitor
+
+                    if monitor['left'] < left and monitor['top'] <= top:
+                        distance_x, distance_y = left-monitor['left'], top-monitor['top']
+                        if distance_x < monitor['width'] and distance_y < monitor['height']:
+                            # modify the correct cropped coordinate
+                            self.monitor_modify_x = (0.0 - monitor['left'])
+                            self.monitor_modify_y = (0.0 - monitor['top'])
+
+                            # save monitor info in self parameter
+                            self.monitor = monitor
+
+                            self.is_found_monitor = True                                
+                            break
+
+                    if self.is_found_monitor:
+                        break
+
+                if not self.is_found_monitor:
+                    # get the closet display
+                    min_distance = min(over_border_distance_list.keys())
+                    closest_monitor = over_border_distance_list[min_distance]
+
+                    # save monitor info in self parameter
+                    self.monitor = closest_monitor
+
+                    # modify the correct cropped coordinate
+                    self.monitor_modify_x = (0.0 - closest_monitor['left'])
+                    self.monitor_modify_y = (0.0 - closest_monitor['top'])
+            
+                self.sct = sct
+    
     def start_capture(self):
         self.previous_image = None  # clear the previous_image content before start capture
         match main_capturing_window.get_frequncy():
@@ -1425,88 +1494,21 @@ class ScreenCaptureWindow(QMainWindow):
 
     def capture_screen(self):
         if self.isVisible():
-            # Get the screen where the screenshot window is displayed
-            screen = self.screen()
-            # get the ration of screen settings in windows system
-            scale_factor = screen.devicePixelRatio()
-
-            x1 = self.geometry().x()
-            y1 = self.geometry().y()
-            x2 = self.geometry().x() + self.geometry().width()
-            y2 = self.geometry().y() + self.geometry().height()
+            # get top-left and bottom-right coordinate, and modify right cropped values
+            if self.is_found_monitor:
+                x1 = (self.geometry().x() + self.monitor_modify_x) * self.scale_factor
+            else:
+                x1 = 0
+            y1 = (self.geometry().y() + self.monitor_modify_y) * self.scale_factor
+            x2 = (self.geometry().x() + self.geometry().width() + self.monitor_modify_x) * self.scale_factor
+            y2 = (self.geometry().y() + self.geometry().height()+ self.monitor_modify_y) * self.scale_factor
             
-            # use mss module to get the display of screen_capture_window which stayed on
-            app_window = gw.getWindowsWithTitle("擷取視窗")
-            if app_window:
-                app_window = app_window[0]
-
-                # 取得視窗的位置和大小
-                left, top = app_window.left, app_window.top
-
-                # 创建标志变量
-                found_monitor = False
-
-                # 使用 mss 擷取整個螢幕
-                with mss.mss() as sct:
-                    # create a dictionary to save the distance with "left - monitor['left']" for every monitor
-                    over_border_distance_list = {}
-
-                    for monitor in sct.monitors[1:]:
-                        # save the distance in dictionary with [distance] = monitor
-                        distance = abs(left - monitor['left'])
-                        over_border_distance_list[distance] = monitor
-
-                        if monitor['left'] < left and monitor['top'] <= top:
-                            distance_x, distance_y = left-monitor['left'], top-monitor['top']
-                            if distance_x < monitor['width'] and distance_y < monitor['height']:
-                                # modify the correct cropped coordinate
-                                monitor_modify_x = (0.0 - monitor['left'])
-                                monitor_modify_y = (0.0 - monitor['top'])
-
-                                # modify right cropped coordinate
-                                x1 = (x1 + monitor_modify_x)*scale_factor
-                                y1 = (y1 + monitor_modify_y)*scale_factor
-                                x2 = (x2 + monitor_modify_x)*scale_factor
-                                y2 = (y2 + monitor_modify_y)*scale_factor
-
-                                # use mss module to grab whole region of monitor first
-                                sct_img = sct.grab(monitor)
-
-                                # Create the PIL Image
-                                pil_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
-
-                                # crop the region
-                                screenshot = pil_img.crop((x1, y1, x2, y2))
-                                found_monitor = True                                
-                                break
-
-                        if found_monitor:
-                            break
-
-                    if not found_monitor:
-                        # get the closet display
-                        min_distance = min(over_border_distance_list.keys())
-                        closest_monitor = over_border_distance_list[min_distance]
-
-                        # modify the correct cropped coordinate
-                        monitor_modify_x = (0.0 - closest_monitor['left'])
-                        monitor_modify_y = (0.0 - closest_monitor['top'])
-
-                        # modify right cropped coordinate
-                        x1 = 0
-                        y1 = (y1 + monitor_modify_y)*scale_factor
-                        x2 = (x2 + monitor_modify_x)*scale_factor
-                        y2 = (y2 + monitor_modify_y)*scale_factor
-
-                        # use mss module to grab whole region of monitor first
-                        sct_img = sct.grab(closest_monitor)
-
-                        # Create the PIL Image
-                        pil_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
-
-                        # crop the region
-                        screenshot = pil_img.crop((x1, y1, x2, y2))
-
+            # use mss module to grab whole region of monitor first
+            sct_img = self.sct.grab(self.monitor)
+            # Create the PIL Image
+            pil_img = Image.frombytes("RGB", sct_img.size, sct_img.bgra, "raw", "BGRX")
+            # crop the region
+            screenshot = pil_img.crop((x1, y1, x2, y2))
     
             # 在每次执行 OCR 之前比较图像相似度
             if self.is_similar_to_previous(screenshot):
@@ -1514,7 +1516,6 @@ class ScreenCaptureWindow(QMainWindow):
             else:
                 # Perform OCR using Google Cloud Vision on the screenshot
                 self.perform_ocr(screenshot)
-
 
     def is_similar_to_previous(self, current_image):
         # 将当前图像与上一次捕获的图像进行相似度比较
