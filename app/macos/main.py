@@ -905,6 +905,7 @@ class MainMenuWindow(QMainWindow):
         font.setPointSize(new_font_size)
         font.setBold(True) # 設置粗體
         self.ocr_text_label.setFont(font)
+        self.translation_text_label.setFont(font)
 
         # check label test is cleared or not
         if self.result_1 != "":
