@@ -289,10 +289,13 @@ class MainMenuWindow(QMainWindow):
         self.google_credential = google_credential
 
         # set private member
+        self._label_font_size = 14
         self._frequency = ""
         self._auto_recaputre_state = None
         self.pause_capture = False
         # self._google_credentials = ""
+        self.result_1 = ""
+        self.result_2 = ""
 
         # 設置 resume_capture 計時器
         self.resume_capture_timer = QTimer(self)
@@ -880,15 +883,22 @@ class MainMenuWindow(QMainWindow):
                     unescape_translated_text = html.unescape(translated_line["translatedText"])
                     # join to list
                     translated_lines.append(unescape_translated_text)
-                result_1 = "\n".join(translated_lines)
+                # result_1 = "\n".join(translated_lines)
+                self.result_1 = "<br>".join(translated_lines)
 
                 # 第二種情況：要辨識的是一整段完整的句子（因太長而被分割成數行）
                 translated_sentence = client_translate.translate(sentence, target_language=target_language)
                 unescape_translated_sentence = html.unescape(translated_sentence["translatedText"])
-                result_2 = unescape_translated_sentence
+                self.result_2 = unescape_translated_sentence
+
+                # 設置成 html 格式
+                font_size = self._label_font_size
+                result_1_html = f"<span style='font-size: {font_size}px'>{self.result_1}</span>"
+                result_2_html = f"<span style='font-size: {font_size}px'>{self.result_2}</span>"
+                separator_line = "<hr style='border-width: 2px; border-style: solid; width: 100%;'>"
 
                 # 將兩種情況結合再一起，顯示在介面上
-                final_result = f'{result_1}\n\n=======================\n\n{result_2}'
+                final_result = f"{result_1_html}<br>{separator_line}<br>{result_2_html}"
                 self.translation_text_label.setText(final_result)
             else:
                 pass
@@ -980,6 +990,8 @@ class MainMenuWindow(QMainWindow):
     def clear_label_text(self):
         self.ocr_text_label.setText("")
         self.translation_text_label.setText("")
+        self.result_1 = ""
+        self.result_2 = ""
 
     def show_settings(self):
         # 如果screen_capture_window存在, 一併禁用窗口
@@ -1041,6 +1053,17 @@ class MainMenuWindow(QMainWindow):
         font.setBold(True) # 設置粗體
         self.ocr_text_label.setFont(font)
         self.translation_text_label.setFont(font)
+
+        # check label test is cleared or not
+        if self.result_1 != "":
+            # Update text font size using HTML style
+            updated_html = f"<span style='font-size: {new_font_size}px'>{self.result_1}</span>" \
+                        f"<br><hr style='border-width: 2px; border-style: solid; width: 100%;'><br>" \
+                        f"<span style='font-size: {new_font_size}px'>{self.result_2}</span>"
+            self.translation_text_label.setText(updated_html)
+
+        # Update private member: _label_font_size
+        self._label_font_size = new_font_size
 
     def update_text_font_color(self, new_font_color):
         self.ocr_text_label.setStyleSheet(f"background-color: rgb(50, 50, 50); border-radius: 10px; color: {new_font_color};")
