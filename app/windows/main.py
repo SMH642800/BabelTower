@@ -289,7 +289,7 @@ class MainMenuWindow(QMainWindow):
         self.google_credential = google_credential
 
         # set private member
-        self._label_font_size = 14
+        self._label_font_size = 10
         self._frequency = ""
         self._auto_recaputre_state = None
         self.pause_capture = False
@@ -893,12 +893,12 @@ class MainMenuWindow(QMainWindow):
 
                 # 設置成 html 格式
                 font_size = self._label_font_size
-                result_1_html = f"<span style='font-size: {font_size}px'>{self.result_1}</span>"
-                result_2_html = f"<span style='font-size: {font_size}px'>{self.result_2}</span>"
-                separator_line = "<hr style='border-width: 2px; border-style: solid; width: 100%;'>"
+                result_1_html = f"<span style='font-size: {font_size}pt'>{self.result_1}</span>"
+                result_2_html = f"<span style='font-size: {font_size}pt'>{self.result_2}</span>"
+                separator_line = "<hr style='border-width: 2px; border-style: solid; width: 100%; margin-top: 5px; margin-bottom: 5px;'>"
 
                 # 將兩種情況結合再一起，顯示在介面上
-                final_result = f"{result_1_html}<br>{separator_line}<br>{result_2_html}"
+                final_result = f"{result_1_html}{separator_line}{result_2_html}"
                 self.translation_text_label.setText(final_result)
             else:
                 pass
@@ -1057,9 +1057,9 @@ class MainMenuWindow(QMainWindow):
         # check label test is cleared or not
         if self.result_1 != "":
             # Update text font size using HTML style
-            updated_html = f"<span style='font-size: {new_font_size}px'>{self.result_1}</span>" \
-                        f"<br><hr style='border-width: 2px; border-style: solid; width: 100%;'><br>" \
-                        f"<span style='font-size: {new_font_size}px'>{self.result_2}</span>"
+            updated_html = f"<span style='font-size: {new_font_size}pt'>{self.result_1}</span>" \
+                        f"<hr style='border-width: 2px; border-style: solid; width: 100%; margin-top: 5px; margin-bottom: 5px;'>" \
+                        f"<span style='font-size: {new_font_size}pt'>{self.result_2}</span>"
             self.translation_text_label.setText(updated_html)
 
         # Update private member: _label_font_size
