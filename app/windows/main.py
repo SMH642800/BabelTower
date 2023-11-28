@@ -289,7 +289,7 @@ class MainMenuWindow(QMainWindow):
         self.google_credential = google_credential
 
         # set private member
-        self._label_font_size = 10
+        self._label_font_size = 12
         self._frequency = ""
         self._auto_recaputre_state = None
         self.pause_capture = False
