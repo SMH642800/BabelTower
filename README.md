@@ -96,7 +96,7 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 - 系統  
   ![設定-系統](github_image/settings-system.png)
   - 在此分頁上，你可以設定 Google 憑證。選擇申請好的憑證檔案後，憑證檔案會被複製到應用程式的資料夾內。這個設定是永久性的，每次啟動應用程式時都會檢查已設定的 Google 憑證是否可用。
-  - 若舊的憑證無法使用了，也可以在此頁面更新憑證。- 要如何申請 Google 憑證，可點選這裡[link](#如何申請-google-cloud-platform-api)。
+  - 若舊的憑證無法使用了，也可以在此頁面更新憑證。（要如何申請 Google 憑證，可點選這裡[link](#如何申請-google-cloud-platform-api)）
 
 ---
 
