@@ -11,11 +11,11 @@ class GoogleCloudClient:
         self._messsage = None
 
     def _set_google_vision(self):
-        # 初始化 Google Cloud Vision API 客户端
+        # initialize the Google Cloud Vision API client
         self._client_vision = vision.ImageAnnotatorClient()
 
     def _set_google_translation(self):
-        # 初始化 Google Cloud Translation API 客户端
+        # initialize the Google Cloud Translation API client
         self._client_translate = translate.Client()
 
     def _set_google_credentials(self, credentials):
@@ -45,10 +45,10 @@ class GoogleCloudClient:
                 client_translate = translate.Client(credentials=credentials)
                 translation = client_translate.translate('Hello', target_language='es')
 
-                # 設置 GCP credentials
+                # set GCP credentials in environmental variable 
                 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_key_file_path
 
-                # 初始化 google.vision 和 google.translation 和 google_credentials
+                # initialize google.vision, google.translation and google_credentials
                 self._set_google_vision()
                 self._set_google_translation()
                 self._set_google_credentials(credentials)
