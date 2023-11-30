@@ -10,7 +10,6 @@
   - [單次截圖辨識及翻譯](#單次截圖辨識及翻譯)
   - [截圖翻譯說明](#截圖翻譯說明)
 - [常見 Q&A](#常見-qa)
-- [如何申請 Google Cloud Platform API](#如何申請-google-cloud-platform-api)
 - [Getting Started](#getting-started)
 - [Building App](#building-app)
   - [macOS](#macos)
@@ -96,7 +95,7 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 - 系統  
   ![設定-系統](github_image/settings-system.png)
   - 在此分頁上，你可以設定 Google 憑證。選擇申請好的憑證檔案後，憑證檔案會被複製到應用程式的資料夾內。這個設定是永久性的，每次啟動應用程式時都會檢查已設定的 Google 憑證是否可用。
-  - 若舊的憑證無法使用了，也可以在此頁面更新憑證。（要如何申請 Google 憑證，可點選這裡[link](#如何申請-google-cloud-platform-api)）
+  - 若舊的憑證無法使用了，也可以在此頁面更新憑證。
 
 ---
 
@@ -172,16 +171,6 @@ Babel Tower 是一款免費、開源的應用程式，此應用程式是專門�
 7. 如果我不想要使用這個程式了，我該去哪裡刪除掉該程式的設定檔？
    - 在 macOS 上，直接將整個 App 丟到垃圾桶即可
    - 在 Windows 上，可以前往 `C:\Users(使用者)\user\Documents` 資料夾底下，會有一個 `Babel Tower` 資料夾，將該資料夾刪除即可
-
----
-
-## 如何申請 Google Cloud Platform API
-
-::: warning
-
-- 請注意，由於 cloud vision 和 cloud translation API 每個月皆有一定次數的免費額度限制，超過免費額度上限之後必須支付使用 API 的費用。
-- cloud vision 免費額度 ： 每個月前 1000 次請求免費，之後==每 1000 次請求需支付 1.5 美元==（實際收費方案請自行查閱 GCP (Google Cloud Platform) 頁面，這裡的收費資料為 2023 年查詢）
-  :::
 
 ---
 
