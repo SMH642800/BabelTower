@@ -1,0 +1,235 @@
+@charset "utf-8";
+
+/*視窗背景色設定*/
+body {
+  background-color: #fbf9cc;
+}
+.blur-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/html_img/bg.jpg);
+  filter: blur(2px);
+  z-index: -1; /* 将其放置在内容的后面 */
+}
+
+/*連結顏色設定*/
+a {
+  color: #df4839;
+}
+a:hover {
+  color: #ff705b;
+  text-decoration: none;
+}
+
+/*頁首,導覽,頁尾的共通設定*/
+header,nav,footer {
+  text-align: center;
+}
+
+.menu {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+/*導覽樣式設定*/
+.menu li {
+  list-style-type: none;
+  display: inline-block;
+  width: 180px;
+  margin: 0 10px;
+}
+.menu a {
+  display: block;
+  padding: 10px;
+  background: #6fbb9a;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+}
+.menu a:hover {
+  background: #90ddbb;
+}
+
+/*頁面標題設定*/
+h1 {
+  width: 300px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 5px solid #79c2d0;
+  background-color: #6fbb9a;
+  color: #fff;
+  font-size: 300%;
+  text-align: center;
+  line-height: 1;
+  border-radius: 50%;
+  text-shadow: 1px 1px 2px #307657;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  background-image: linear-gradient(to bottom, #005792, #005792);
+  font-family: 'Limelight', cursive;
+}
+
+/*次標題設定*/
+.h {
+  padding: 10px;
+  margin-bottom: 30px;
+  border: 1px dotted #94c8b1;
+  border-left: 10px solid #d0e35b;
+  color: #6fbb9a;
+  border-radius: 5px 0 0 5px;
+}
+
+.warning-block {
+  background-color: #ffe6e6; /* 警告框的背景顏色 */
+  border: 3px solid #ff0000; /* 警告框的邊框 */
+  border-radius: 8px;
+  padding: 10px; /* 警告框內的填充 */
+  margin-top: 20px;
+  margin-bottom: 20px; /* 與下一個元素的間距 */
+}
+
+/*小標題設定*/
+.h-sub {
+  padding: 10px;
+  background-color: #fbf9cc;
+  color: #ff705b;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 2px #ffd0ad inset;
+}
+.h-sub span{
+  font-weight: normal;
+}
+
+/*內容區塊邊框設定*/
+#contents {
+  width: 798px;
+  margin: 40px auto;
+  padding: 40px 80px;
+  border: 1px solid #f6bb9e;
+  background-color: #fff;
+}
+
+/*「更多介紹」連結設定*/
+.more {
+  text-align: right;
+}
+.more::after {
+  content: url(../img/html_img/ico_arrow.png);
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+/*連結圖示設定*/
+a[target="_blank"]::after {
+  content: url(../img/html_img/ico_blank.png);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+a[href^="mailto:"]::after {
+  content: url(../img/html_img/ico_mail.png);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/*區塊間分隔*/
+#contents > section + section {
+  margin-top: 80px;
+}
+
+/*文繞圖設定*/
+.imgL {
+  /* float: left; */
+  margin-right: 20px;
+  border-radius:20px;
+}
+.imgLL {
+  float: left;
+  margin-right: 20px;
+  border-radius:20px;
+}
+.imgR {
+  float: right;
+  margin-left: 20px;
+}
+.clear {
+  clear: both;
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/*圓形圖片設定*/
+.img-round {
+  border-radius: 50%;
+}
+
+/* 設置一個返回最上面的按鈕 */
+
+#goToTopBtn {
+  /* display: none; */
+  opacity: 0; /* invisible at first */
+  position: fixed;
+  bottom: -10px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 0, 0, 0.7);
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
+  padding: 0; /* 清除內部填充 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 隱藏超出圓形的內容 */
+  transition: 0.5s;
+}
+
+#goToTopBtn.show {
+  bottom: 20px;
+  opacity: 1; /* 满足条件时显示 */
+}
+
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center; /* 讓文字置中 */
+  font-weight: bold;
+}
+
+#goToTopBtn img {
+  width: 24px; /* 調整圖片大小 */
+  height: 24px; /* 調整圖片大小 */
+}
+
+#goToTopBtn span {
+  font-size: 16px; /* 調整文字大小 */
+  margin-top: 0px; /* 調整文字與圖片間距 */
+}
+
+/* #goToTopBtn {
+  transition: transform 0.2s ease;
+} */
+
+#goToTopBtn:hover {
+  background-color: red;
+  transform: translateY(-5px);
+}
+
+#goToTopBtn .centered-content {
+  transition: color 0.3s ease;
+}
+
+#goToTopBtn:hover .centered-content {
+  color: white;
+}
