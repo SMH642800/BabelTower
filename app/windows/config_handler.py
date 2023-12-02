@@ -14,7 +14,6 @@ class ConfigHandler():
     
 
     def __init__(self):
-        # 应用程序被打包
         if getattr(sys, 'frozen', False):
             # get user's document path
             user_documents = os.path.expanduser("~\\Documents")
@@ -36,18 +35,18 @@ class ConfigHandler():
 
 
     def read_config_file(self):
-        # 檢查是否有 config file
+        # Check for the existence of a config file
         if not os.path.exists(self.config_file_path):
             self._create_config_file()
 
-        # 載入 config
+        # load configuration in program
         with open(self.config_file_path, "r", encoding='utf-8') as config_file:
             config = toml.load(config_file)
         
         return config
 
     def _create_config_file(self):
-        # 如果文件不存在，创建默认配置
+        # if configuration file is not existed, then create by default values
         default_config = {
             "Settings": {
                 "text_font_size": self.DEFAULT_FONT_SIZE,

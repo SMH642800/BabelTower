@@ -7,6 +7,7 @@ from PySide6.QtCore import QStandardPaths, QUrl, Signal, QRect, QPoint, QPropert
 from PySide6.QtGui import QFont, Qt, QDesktopServices, QPixmap, QPainter, QColor
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QTabWidget, QWidget, QLabel, QComboBox, QPushButton, QFrame, QColorDialog, QFileDialog, QMessageBox, QCheckBox
 
+
 from config_handler import *
 from google_credentials import *
 
@@ -312,7 +313,7 @@ class SettingsWindow(QDialog):
         label_font.setBold(True)
         frequency_label.setFont(label_font)
 
-        # Create a dropdown menu for capture frequency.
+        # Create a dropdown menu for capture frequency
         frequency_combo = QComboBox()
         frequency_combo.addItem("高 (1 秒)")
         frequency_combo.addItem("標準 (2 秒)")
@@ -559,11 +560,11 @@ class SettingsWindow(QDialog):
         file_dialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
         file_dialog.setWindowTitle("Choose Google's Credential File")
         
-        # "Set the initial directory (user's home directory)
+        # Set the initial directory (user's home directory)
         initial_directory = QStandardPaths.writableLocation(QStandardPaths.HomeLocation)
         file_dialog.setDirectory(initial_directory)
 
-        # Retrieve the selected file path and set Google credentials based on the file path.
+        # Retrieve the selected file path and set Google credentials based on the file path
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
             if selected_files:

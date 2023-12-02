@@ -7,6 +7,7 @@ from PySide6.QtCore import QStandardPaths, QUrl, Signal, QRect, QPoint, QPropert
 from PySide6.QtGui import QFont, Qt, QDesktopServices, QColor, QPainter
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QTabWidget, QWidget, QLabel, QComboBox, QPushButton, QFrame, QColorDialog, QFileDialog, QMessageBox, QCheckBox
 
+
 from config_handler import *
 from google_credentials import *
 
@@ -26,7 +27,7 @@ class CheckGoogleCredentialThread(QThread):
         self.google_credential_checked.emit(message)
 
 
-# 創建 slide toggle check box
+# create slide toggle check box
 class SlideToggle(QCheckBox):
     def __init__(
         self,
@@ -119,7 +120,6 @@ class SlideToggle(QCheckBox):
         p.end()
 
 
-# 创建一个新的类以用于设置窗口
 class SettingsWindow(QDialog):
     # Create a custom signal for closed event
     setting_window_closed = Signal()
@@ -132,17 +132,17 @@ class SettingsWindow(QDialog):
 
         # set app's pwd
         if getattr(sys, 'frozen', False):
-            # 应用程序被打包
+            # packaged state
             self.app_dir_path = sys._MEIPASS
         else:
-            # 一般開發狀態
+            # development state
             current_dir = os.path.dirname(os.path.abspath(__file__))
             self.app_dir_path = os.path.dirname(os.path.dirname(current_dir))
 
-        # 設定 setting window 字體大小
+        # set settings_window's font size
         self._font_size = 12
 
-        # 讀取 config file
+        # get configuration file
         self.config_handler = config_handler
 
         # import google credential module
@@ -151,10 +151,10 @@ class SettingsWindow(QDialog):
         # screen info
         self.main_window_screen = main_window_screen
 
-        # # Set the window opacity
+        # Set the window opacity
         self.setWindowOpacity(0.99)
 
-        # 設置參數
+        # set parameters
         self._text_font_size = self.config_handler.get_font_size()
         self._text_font_color = self.config_handler.get_font_color()
         self._text_font_color_name = self._text_font_color
@@ -162,12 +162,9 @@ class SettingsWindow(QDialog):
         self._auto_recapture_state = self.config_handler.get_auto_recapture_state()
         self._google_credentials = self.config_handler.get_google_credential_path()
 
-        # 设置窗口标题和属性
+        # set window's title and attributes
         self.setWindowTitle("設定")
-        #self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)  # 使设置窗口始终位于顶层
-        self.setFixedSize(300, 200)  # 視窗大小 300 x 200
-        #self.resize(300, 200)
-        # self.center()  # 視窗顯示在螢幕正中間
+        self.setFixedSize(300, 200) 
 
         # Calculate the position to center the window on the main window's screen
         setting_window_geometry = self.main_window_screen.geometry()
@@ -200,34 +197,29 @@ class SettingsWindow(QDialog):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
-            event.ignore()  # 阻止 ESC 鍵事件傳播
+            event.ignore()  # ignore ESC keyboard event
 
     def create_text_settings(self):
-        # 创建一个用于文本设置的 QWidget
         text_settings = QWidget()
 
-        # set font size to 12px
+        # set font size to 10px
         text_font = QFont()
         text_font.setPointSize(10)
         text_font.setBold(True) # 設置粗體
 
-        # 创建文本大小下拉框
+        # create a dropdown selected menu for text sizes
         text_size_label = QLabel("字體大小 ")
         text_size_label.setFont(text_font)
         text_size_combo = QComboBox()
-        #text_size_combo.setFixedWidth(80)
-        for text_size in range(8, 25, 2):
+        for text_size in range(8, 48, 2):
             text_size_combo.addItem(str(text_size))
-        text_size_combo.setCurrentText(str(self._text_font_size))  # 設置文本字體大小
+        text_size_combo.setCurrentText(str(self._text_font_size))
         text_size_combo.currentTextChanged.connect(self.update_text_size)
 
-        # 创建文本颜色按钮以及預覽顏色
+        # create a button for text color 
         text_color_label = QLabel("字體顏色 ")
         text_color_label.setFont(text_font)
-
         text_color_button = QPushButton("選擇顏色")
-        #text_color_button.setFixedWidth(70)
-        # 使用样式表自定义按钮的外观
         text_color_button.setStyleSheet(
             "QPushButton {"
             "    background-color: rgba(0, 0, 0, 0);"
@@ -250,91 +242,61 @@ class SettingsWindow(QDialog):
 
         text_color_button.clicked.connect(self.choose_text_color)
 
+        # preview the chosen color
         self.text_color_show = QLabel()
-        self.text_color_show.setFixedSize(55, 25)  # 設置預覽顏色的範圍大小
+        self.text_color_show.setFixedSize(55, 25) 
         self.text_color_show.setStyleSheet(
-            'border: 2px solid lightgray;'  # 邊框線條顏色
-            'border-radius: 5px;'  # 邊框圓角
-            f'background-color: {self._text_font_color};'  # 設置背景顏色
+            'border: 2px solid lightgray;' 
+            'border-radius: 5px;' 
+            f'background-color: {self._text_font_color};'
         )
         self.color_name = QLabel()
-        self.color_name.setText(self._text_font_color_name)  # 設置顏色名稱
+        self.color_name.setText(self._text_font_color_name) 
         self.color_name.setStyleSheet(f'color: {self._text_font_color_name}; qproperty-alignment: AlignCenter;')
         color_name_font = QFont()
         color_name_font.setPointSize(12)
-        color_name_font.setBold(True) # 設置粗體
+        color_name_font.setBold(True)
         self.color_name.setFont(color_name_font)
 
-        # 创建 text_size 水平布局
+        # Create a horizontal layout for text_size
         text_size_layout = QHBoxLayout()
-        # 添加一个占位符来距离左边至少 10px
         text_size_layout.addSpacing(10)
-        # 将文本大小标签和下拉框添加到水平布局
         text_size_layout.addWidget(text_size_label)
-        # 添加一个60px的空白空間
         text_size_layout.addSpacing(5)
         text_size_layout.addWidget(text_size_combo)
-        # 添加一个60px的空白空間
         text_size_layout.addSpacing(10)
 
-        # 创建 text_color 水平布局
+        # Create a horizontal layout for text_color
         text_color_layout = QHBoxLayout()
-        # 添加一个占位符来距离左边至少 10px
         text_color_layout.addSpacing(10)
-        # 将文本大小标签和下拉框添加到水平布局
         text_color_layout.addWidget(text_color_label)
-        # 添加一个60px的空白空間
-        #text_color_layout.addSpacing(40)
         text_color_layout.addWidget(text_color_button)
-         # 添加一个60px的空白空間
         text_color_layout.addSpacing(10)
 
-        # 创建 color_show 水平布局
+        # Create a horizontal layout for color_show
         color_show_layout = QHBoxLayout()
 
         background_color = QColor(150, 150, 150)
         background_style = f'background-color: rgb({background_color.red()}, {background_color.green()}, {background_color.blue()}); border-radius: 10px;'
 
-        # 创建一个 QWidget 作为整体的背景
         background_widget = QWidget()
         background_widget.setStyleSheet(background_style)
         background_layout = QHBoxLayout()
         background_widget.setLayout(background_layout)
+        background_widget.setFixedWidth(200)  
 
-        # 设置整体背景块的宽度
-        background_widget.setFixedWidth(200)  # 替换为你想要的宽度
-
-        # 设置 self.text_color_show 的宽度
         self.text_color_show.setFixedWidth(55)
 
-        # 创建一个占位的 QWidget 用于控制左侧和右侧的间距
         left_spacer = QWidget()
         left_spacer.setFixedWidth(10)
         spacer = QWidget()
         spacer.setFixedWidth(15)
 
-        # 添加一个60px的空白空间
         background_layout.addWidget(left_spacer)
-
-        # 将文本大小标签和下拉框添加到水平布局
         background_layout.addWidget(self.text_color_show)
-
-        # 添加一个60px的空白空间
         background_layout.addWidget(spacer)
-
         background_layout.addWidget(self.color_name)
-
-        # 添加整体的背景QWidget到水平布局
         color_show_layout.addWidget(background_widget)
-
-
-        # # 将文本大小标签和下拉框添加到水平布局
-        # color_show_layout.addWidget(self.text_color_show)
-        # # 添加一个60px的空白空間
-        # color_show_layout.addSpacing(45)
-        # color_show_layout.addWidget(self.color_name)
-        # # 添加一个60px的空白空間
-        # color_show_layout.addSpacing(10)
 
         # Create a vertical layout
         layout = QVBoxLayout()
@@ -345,13 +307,12 @@ class SettingsWindow(QDialog):
         layout.addSpacing(5)
         layout.addLayout(color_show_layout)
 
-        # 设置水平布局作为文本设置的布局
+        # add all widget
         text_settings.setLayout(layout)
 
         return text_settings
 
     def create_recognition_settings(self):
-        # 创建一个用于辨识设置的 QWidget
         recognition_settings = QWidget()
 
         # Create a vertical layout for the recognition settings
@@ -365,13 +326,13 @@ class SettingsWindow(QDialog):
 
         frequency_label = QLabel("擷取頻率 ")
 
-        # set font size to 14px
+        # set font size to 10px
         label_font = QFont()
         label_font.setPointSize(10)
-        label_font.setBold(True) # 設置粗體
+        label_font.setBold(True)
         frequency_label.setFont(label_font)
 
-        # 建立辨識頻率的下拉式選單
+        # Create a dropdown menu for capture frequency
         frequency_combo = QComboBox()
         frequency_combo.addItem("高 (1 秒)")
         frequency_combo.addItem("標準 (2 秒)")
@@ -425,24 +386,22 @@ class SettingsWindow(QDialog):
         return recognition_settings
 
     def create_system_settings(self):
-        # 创建一个用于系統设置的 QWidget
         system_settings = QWidget()
 
         # set button_font size to 12px
         button_font = QFont()
         button_font.setPointSize(12)
-        button_font.setBold(True) # 設置粗體
+        button_font.setBold(True) 
 
         # set label_font size to 10px
         label_font = QFont()
         label_font.setPointSize(10)
-        label_font.setBold(True) # 設置粗體
+        label_font.setBold(True) 
 
-        # 创建一个按钮以设置 Google 凭证
+        # Create a button to set Google_credentials_key
         self.set_credentials_button = QPushButton("")
         self.set_credentials_button.setFont(button_font)
         self.set_credentials_button.clicked.connect(self.set_google_credentials)
-        # 使用样式表自定义按钮的外观
         self.set_credentials_button.setStyleSheet(
             "QPushButton {"
             "    background-color: rgba(0, 0, 0, 0);"
@@ -467,38 +426,36 @@ class SettingsWindow(QDialog):
         self.google_credential_state = QLabel("")
         self.google_credential_state.setFont(label_font)
         self.google_credential_state.setStyleSheet(
-            "QLabel { qproperty-alignment: AlignCenter; } "  # 文字置中
+            "QLabel { qproperty-alignment: AlignCenter; } "  # set label text to center
         )
 
-        # 創建如何取得google憑證連結
-        new_file_path = os.path.join(self.app_dir_path, "html/sub-google-api.html")
-        self.credentials_link = QLabel(f'<a href="file://{new_file_path}">如何取得 Google 憑證？</a>')
-        #self.credentials_link.setFont(font)    
+        # create a link description to obtain Google_credentials
+        new_file_path = os.path.join(self.app_dir_path, "html/webpage.html")
+        self.credentials_link = QLabel(f'<a href="file://{new_file_path}">如何取得 Google 憑證？</a>')   
         self.credentials_link.setStyleSheet(
-            "QLabel { qproperty-alignment: AlignCenter; } "  # 文字置中
+            "QLabel { qproperty-alignment: AlignCenter; } "  # set label text to center
         )
-        #self.credentials_link.setOpenExternalLinks(True)  # 允許外部連結
         self.credentials_link.linkActivated.connect(self.open_google_credential_settings_link)
 
-        # 将小部件添加到系統设置布局
+        # Add the widgets to the 'system_settings' pages layout
         layout = QVBoxLayout()
-        layout.addSpacing(15)  # 添加一个占位符来距离左边至少 10px
+        layout.addSpacing(15) 
         layout.addWidget(self.set_credentials_button)
         layout.addWidget(self.google_credential_state)
         layout.addWidget(self.credentials_link)
-        layout.addSpacing(15)  # 添加一个占位符来距离左边至少 10px
+        layout.addSpacing(15)
         system_settings.setLayout(layout)
 
         return system_settings
     
     def update_google_credential_state_label(self, message):
-        # 設置 google 憑證狀態
+        # set google_credential status message
         self.google_credential_state.setText(message)
 
         # send signal that make main windows update status
         self.update_google_credential_state.emit()
 
-        # 設置 google 憑證 button 的顯示文字
+        # set setting_google_credential button's text
         successed_message = "憑證有效"
         failed_message = "憑證無效"
         not_set_message = "尚未設置憑證"
@@ -514,40 +471,32 @@ class SettingsWindow(QDialog):
         self.check_google_credential_thread.wait()
 
     def open_google_credential_settings_link(self, url):
-        # 使用 QDesktopServices 打開 URL
         QDesktopServices.openUrl(QUrl.fromLocalFile(url))
 
     def create_about_page(self):
-        # 创建一个用于“关于”页面的 QWidget
         about_page = QWidget()
 
-        # set font size to 14px
+        # set font size to 12px
         label_font = QFont()
         label_font.setPointSize(12)
-        label_font.setBold(True) # 設置粗體
+        label_font.setBold(True)
 
-        # 建立版本訊息、作者名稱
         version_label = QLabel("版本: ver0.1.0")
         author_label = QLabel("作者: Hsieh Meng-Hao")
 
-        # 創建使用說明連結、Github連結
-        manual_file_path = os.path.join(self.app_dir_path, "html/manual.html")
+        manual_file_path = os.path.join(self.app_dir_path, "html/webpage.html")
         self.manual_link = QLabel(f'<a href="file://{manual_file_path}"><span> &lt; </span>使用說明<span> &gt; </span></a>')
         self.github_link = QLabel(f'<a href="https://github.com/SMH642800/BabelTower"><span> &lt; </span>GitHub<span> &gt; </span></a>')
-        # self.manual_link.setFont(label_font)
-        # self.github_link.setFont(label_font)
-        #self.manual_link.setOpenExternalLinks(True)  # 允許外部連結
         self.manual_link.linkActivated.connect(self.open_manual_link)
-        #self.github_link.setOpenExternalLinks(True)  # 允許外部連結
         self.github_link.linkActivated.connect(self.open_github_website_link)
 
-        # 創建一條水平線以隔開 label
+        # create a horizontal line to separate lables
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        line.setLineWidth(1.5)  # 設置線條寬度為 2px
+        line.setLineWidth(1.5)
 
-        # 将小部件添加到“关于”页面布局
+        # Add the widgets to the 'About' pages layout
         layout = QVBoxLayout()
         layout.addWidget(version_label)
         layout.addWidget(author_label)
@@ -559,47 +508,45 @@ class SettingsWindow(QDialog):
         return about_page
     
     def open_manual_link(self, url):
-        # 使用 QDesktopServices 打開 URL
         QDesktopServices.openUrl(QUrl(url))
 
     def open_github_website_link(self, url):
-        # 使用 QDesktopServices 打開 URL
         QDesktopServices.openUrl(QUrl(url))
 
     def update_text_size(self, selected_font_size):
-        # 更新文本字體大小
+        # 更update ocr_text and translation_text label font size in main_window
         self._text_font_size = int(selected_font_size)
         
-        # 保存用户设置到JSON配置文件
+        # Save user settings to a TOML configuration file
         self.config_handler.set_font_size(self._text_font_size)
         
     def choose_text_color(self):
-        # 打开颜色对话框，并根据用户的选择设置文本颜色
+        # Open the color dialog and set the text color based on the user's selection
         color = QColorDialog.getColor()
-        hex_color = ""  # 初始化 hex_color 為空字符串
+        hex_color = ""
         if color.isValid():
             name = color.name().upper()
             self.color_name.setText(name)
 
-            # 將選定的顏色轉換為十六進位格式
+            # convert the selected color to hexadecimal format
             hex_color = color.name()
 
-            # 更新 color_name 的字體顏色
+            # update the font color of color_name lable text
             self.color_name.setStyleSheet(f'color: {hex_color};')
 
-            # 更新 text_color_show 的背景顏色
+            # update the background color of text_color_show 
             self.text_color_show.setStyleSheet(
-                'border: 2px solid lightgray;'  # 邊框線條顏色
-                'border-radius: 5px;'  # 邊框圓角
-                f'background-color: {hex_color};' # 更新顏色
+                'border: 2px solid lightgray;' 
+                'border-radius: 5px;' 
+                f'background-color: {hex_color};'
             )
 
-            # 保存用户设置到 TOML 配置文件
+            # Save user settings to a TOML configuration file
             self._text_font_color = hex_color.upper()
             self.config_handler.set_font_color(self._text_font_color)
 
     def update_recognition_frequency(self, selected_frequency):
-        # 更新偵測的頻率
+        # update capturing frequency
         match selected_frequency:
             case 0:
                 self._frequency = "高 (1 秒)"
@@ -613,7 +560,7 @@ class SettingsWindow(QDialog):
             case 3:
                 self._frequency = "非常慢 (5 秒)" 
         
-        # 保存用户设置到 TOML 配置文件
+        # Save user settings to a TOML configuration file
         self.config_handler.set_capture_frequency(self._frequency)
 
     def update_auto_recapture_state(self, value):
@@ -621,24 +568,23 @@ class SettingsWindow(QDialog):
         self.config_handler.set_auto_recapture_state(value)
 
     def set_google_credentials(self):
-         # 打开一个文件对话框，让用户选择 Google 凭证文件
+        # Open a file dialog for users to select a Google credentials file
         file_dialog = QFileDialog(self)
-        #file_dialog(Qt.WindowType.WindowStaysOnTopHint)  # 使设置窗口始终位于顶层
         file_dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         file_dialog.setNameFilter("JSON Files (*.json)")
         file_dialog.setViewMode(QFileDialog.ViewMode.List)
         file_dialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
         file_dialog.setWindowTitle("Choose Google's Credential File")
         
-        # 设置初始目录（在这里设置为用户主目录）
+        # Set the initial directory (user's home directory)
         initial_directory = QStandardPaths.writableLocation(QStandardPaths.HomeLocation)
         file_dialog.setDirectory(initial_directory)
 
-        # 获取所选文件路径并根据文件路径设置 Google 凭证
+        # Retrieve the selected file path and set Google credentials based on the file path
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
             if selected_files:
-                credentials_file = selected_files[0]  # 获取第一个选择的文件
+                credentials_file = selected_files[0] 
 
                 # get user's document path
                 user_documents = os.path.expanduser("~\\Documents")
@@ -647,21 +593,22 @@ class SettingsWindow(QDialog):
                 location = os.path.join(user_documents, "Babel Tower", "Google Credential Key")
                 new_file_path = os.path.join(location, os.path.basename(credentials_file))
 
-                # make sure path is exsited
+                # make sure saved path is exsited
                 os.makedirs(location, exist_ok=True)
                 
                 previous_file_path = self.config_handler.get_google_credential_path()
                 if os.path.exists(previous_file_path):
-                    os.remove(previous_file_path)  # 如果文件已存在，先删除它
+                    os.remove(previous_file_path)  # delete older file if it existed
 
+                # copy selected file into new file path
                 try:
                     shutil.copy(credentials_file, new_file_path)
-                    # 保存用户设置到 TOML 配置文件
+                    # Save user settings to a TOML configuration file
                     self.config_handler.set_google_credential_path(new_file_path)
                 except Exception as e:
                     pass
                 
-                # 檢查 google 憑證是否能正常使用
+                # check google_credential can use or not
                 google_key_file_path = self.config_handler.get_google_credential_path()
                 self.google_credential.check_google_credential(google_key_file_path)
 
@@ -669,16 +616,16 @@ class SettingsWindow(QDialog):
                 if self.google_credential.get_google_vision() and self.google_credential.get_google_translation():
                     QMessageBox.information(self, "Info", "已成功設置 Google 憑證 ! ")
 
-                    # 更新設置 google 憑證 button 的文字
+                    # Update the text of the 'Set Google Credentials' button
                     self.set_credentials_button.setText("更新 Google 憑證")
 
-                    # 更新 google 憑證狀態的文字
+                    # Update the text for the Google credentials status
                     message = self.google_credential.get_message()
                     self.google_credential_state.setText(message)
                 else:
                     QMessageBox.warning(self, "Warning", "設置 Google 憑證失敗！\n可能是該 Google 憑證無法使用 或 無法將該 Google 憑證檔案複製至應用程式資料夾底下作為使用！")
 
-                    # 更新 google 憑證狀態的文字
+                    # Update the text for the Google credentials status
                     message = self.google_credential.get_message()
                     self.google_credential_state.setText(message)
 

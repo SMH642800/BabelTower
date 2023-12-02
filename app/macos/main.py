@@ -81,7 +81,7 @@ class ScalableButton(QPushButton):
         self.is_pressed = True
 
     def onButtonReleased(self):
-        # upon releasing the mouse button, restore the original icon size.
+        # upon releasing the mouse button, restore the original icon size
         self.is_pressed = False
         self.createIcon(self.icon_path)
         self.animateIconSize(QSize(40, 40))
@@ -312,7 +312,7 @@ class MainMenuWindow(QMainWindow):
         self.line = QFrame()
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
-        self.line.setLineWidth(1)  # set line width to 2px
+        self.line.setLineWidth(1)  # set line width to 1px
 
         # create a QLabel for displaying OCR recognized text
         self.ocr_label = QLabel("  原 文：", self)
@@ -360,7 +360,7 @@ class MainMenuWindow(QMainWindow):
         # set the label as the widget for the scroll area
         transaltion_scroll_area.setWidget(self.translation_text_label)
 
-        # set the font size and weight for ocr_label and translation_label.
+        # set the font size and weight for ocr_label and translation_label
         font = QFont()
         font.setPointSize(16)
         font.setBold(True)
@@ -422,7 +422,7 @@ class MainMenuWindow(QMainWindow):
         # add the QWidget to the main window
         self.setCentralWidget(widget)
 
-        # set window flags to keep it always on top.
+        # set window flags to keep it always on top
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
         # initialize the attribute
@@ -587,7 +587,7 @@ class MainMenuWindow(QMainWindow):
                     translated_lines.append(unescape_translated_text)
                 self.result_1 = "<br>".join(translated_lines)
 
-                # Second scenario: The text to recognize is a complete paragraph that has been split into multiple lines due to its length too long.
+                # Second scenario: The text to recognize is a complete paragraph that has been split into multiple lines due to its length too long
                 translated_sentence = client_translate.translate(sentence, target_language=target_language)
                 unescape_translated_sentence = html.unescape(translated_sentence["translatedText"])
                 self.result_2 = unescape_translated_sentence
@@ -848,7 +848,7 @@ class MainMenuWindow(QMainWindow):
             new_file_path = os.path.join(self.app_dir, "img/messagebox/warning.png")
             customIcon = QPixmap(new_file_path)
 
-            # 创建消息框
+            # create messagebox
             msg_box = QMessageBox()
             msg_box.setWindowTitle("Warning")
             msg_box.setIconPixmap(customIcon)
@@ -976,7 +976,7 @@ class ScreenCaptureWindow(QMainWindow):
     def __init__(self, main_window_screen):
         super().__init__()
 
-        # declare a variable to store the previously recognized image.
+        # declare a variable to store the previously recognized image
         self.previous_image = None
 
         # screen info
@@ -1101,7 +1101,7 @@ class ScreenCaptureWindow(QMainWindow):
             previous_cv = cv2.cvtColor(np.array(self.previous_image), cv2.COLOR_RGB2BGR)
             current_cv = cv2.cvtColor(np.array(current_image), cv2.COLOR_RGB2BGR)
 
-            # comparing images similarity.
+            # comparing images similarity
             result = cv2.matchTemplate(current_cv, previous_cv, cv2.TM_CCOEFF_NORMED)
 
             # get the maximum matching value
