@@ -18,13 +18,32 @@ function scrollFunction() {
 function topFunction() {
     scrollToTop()
 }
+
+// check user browser is used chromeium or not
+function isChromium() {
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    var isChromium = window.chrome !== null;
+  
+    return isChrome && isChromium;
+  }
   
 // 返回页面顶部
 function scrollToTop() {
     var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
 
     if (currentScroll > 0) {
-      window.requestAnimationFrame(scrollToTop);
-      window.scrollTo({top: 0, behavior: 'smooth'});
+        if (isChromium()) {
+            var scrollStep = -currentScroll / (1000 / 15); // Adjust speed here for Chromium
+            var scrollInterval = setInterval(function() {
+              if (window.scrollY !== 0) {
+                window.scrollBy(0, scrollStep);
+              } else {
+                clearInterval(scrollInterval);
+              }
+            }, 15);
+        } else {
+            window.requestAnimationFrame(scrollToTop);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
     }
   }
