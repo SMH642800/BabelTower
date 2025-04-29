@@ -57,21 +57,16 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
      When the Capture Window is open, this button stays highlighted.  
      If the window gets lost, press the button again to bring the Capture Window to the top of all windows.
 
----
-
 <img src="github_image/ui_icons/record_button_start.png" alt="Start Capture" height="28" style="border: 1px solid gray;"> <img src="github_image/ui_icons/record_button_stop.png" alt="Stop Capture" height="28" style="border: 1px solid gray;">
 
 2. **Start or pause screen capturing:**  
    After adjusting the Capture Window, press this button to start capturing the screen and translating subtitles in real-time.
-
----
 
 <img src="github_image/ui_icons/screenshot_button.png" alt="Screenshot" height="28" style="border: 1px solid gray;">
 
 3. **Screenshot function:**  
    Press the button, select the area you want to recognize and translate, and the result will be displayed on the main interface.
 
----
 
 <img src="github_image/ui_icons/pin_button_disable.png" alt="Pin Disabled" height="28" style="border: 1px solid gray;"> <img src="github_image/ui_icons/pin_button_enable.png" alt="Pin Enabled" height="28" style="border: 1px solid gray;">
 
@@ -79,14 +74,12 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
    By default, this feature is enabled. When activated, the main interface stays pinned on top of all windows.  
    If the Capture Window is also open, they will be synchronized.
 
----
 
 <img src="github_image/ui_icons/cleanup_button.png" alt="Clear Text" height="28" style="border: 1px solid gray;">
 
 5. **Clear text:**  
    Clears the text displayed on the main interface.
 
----
 
 <img src="github_image/ui_icons/settings_button.png" alt="Settings" height="28" style="border: 1px solid gray;">
 
