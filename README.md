@@ -95,8 +95,6 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
 
   - Adjust the **font size** and **font color** for the recognition and translation results displayed on the main interface.
 
----
-
 - **Capture**
 
   ![Settings - Capture](github_image/settings-capture.png)
@@ -111,8 +109,6 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
     This option is **disabled by default**.
 
     ![Auto Resume After Screenshot](github_image/auto-recapture.png)
-
----
 
 - **System**
 
@@ -133,6 +129,7 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
    ![Step 1 - Screen Capture](github_image/capture-example-image01.png)
 
 2. Then, click the **Start Capture** button (the second button from the left).
+   
    ![Step 2 - Screen Capture](github_image/capture-example-image02.png)
 
 3. Once started, the system will automatically capture the selected region and translate any detected subtitle text into Chinese. It will continue to do so until you click the **Pause Capture** button.
@@ -143,6 +140,7 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
 ### 🖼️ One-Time Screenshot Recognition and Translation
 
 1. Click the **Screenshot** button (the third button from the left).
+   
    ![Step 1 - Screenshot](github_image/screenshot-example-image01.png)
 
 2. Select the region you want to recognize and translate.
@@ -175,8 +173,6 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
    - It does not install any additional software on your system — you can use it with confidence.
    - All source code is publicly available on [GitHub]().
 
----
-
 2. **On macOS, why do I get an error saying the app is "damaged and can’t be opened"?**
 
    - This is due to macOS security mechanisms. Even if the app is safe, macOS may block execution of unverified software and show the message:  
@@ -184,27 +180,19 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
    - To resolve this issue, follow the guide here:  
      [Mr. MAD - How to Fix "File Damaged" Error on macOS Ventura 13](https://mrmad.com.tw/macos-ventura-file-corrupted)
 
----
-
 3. **Which languages does this app support for recognition?**
 
    - As long as the language is supported by **Google Cloud Vision API**, it can be recognized.  
      Most major languages in the world are supported.
-
----
 
 4. **Can the app translate into languages other than Traditional Chinese?**
 
    - Currently, the translation output is fixed to **Traditional Chinese**.  
      Custom translation target language is **not yet supported**.
 
----
-
 5. **Why doesn't the app window stay on top?**
 
    - Make sure the application you're translating is running in **windowed mode**, not **full-screen mode**.
-
----
 
 6. **Why isn't the entire subtitle being recognized?**
 
@@ -212,8 +200,6 @@ This software utilizes **OCR (Optical Character Recognition)** technology combin
      To reduce unnecessary API calls, it compares the similarity between the current and previous screenshots to avoid redundant recognition.
    - If your subtitles appear **one character at a time** instead of full sentences, it's recommended to set the capture interval to **3 seconds or more**.  
      This reduces the chance of the system thinking the screen hasn't changed and skipping OCR.
-
----
 
 7. **How do I delete the app's configuration files if I no longer want to use it?**
 
